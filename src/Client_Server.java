@@ -26,14 +26,14 @@ class Server extends Thread {
 
     public void run() {
 
-        System.out.println("Поток сервера: Сервер ожидает подключения. Порт сервера - " + port);//9050
+        System.out.println("РџРѕС‚РѕРє СЃРµСЂРІРµСЂР°: РЎРµСЂРІРµСЂ РѕР¶РёРґР°РµС‚ РїРѕРґРєР»СЋС‡РµРЅРёСЏ. РџРѕСЂС‚ СЃРµСЂРІРµСЂР° - " + port);//9050
 
         try (ServerSocket serverSocket = new ServerSocket(port);
              Socket socket = serverSocket.accept()) {
 
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
 
-            System.out.println("Поток сервера: Соединение с клиентом установлено.");
+            System.out.println("РџРѕС‚РѕРє СЃРµСЂРІРµСЂР°: РЎРѕРµРґРёРЅРµРЅРёРµ СЃ РєР»РёРµРЅС‚РѕРј СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ.");
             String query = dataInputStream.readUTF();
             URL url = new URL(query);
 
@@ -48,13 +48,13 @@ class Server extends Thread {
             socket.getOutputStream().flush();
             dataStream.close();
 
-            System.out.println("Поток сервера: Данные отправлены.");
+            System.out.println("РџРѕС‚РѕРє СЃРµСЂРІРµСЂР°: Р”Р°РЅРЅС‹Рµ РѕС‚РїСЂР°РІР»РµРЅС‹.");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println("Поток сервера: Работа сервера завершена.");
+        System.out.println("РџРѕС‚РѕРє СЃРµСЂРІРµСЂР°: Р Р°Р±РѕС‚Р° СЃРµСЂРІРµСЂР° Р·Р°РІРµСЂС€РµРЅР°.");
     }
 }
 
@@ -62,23 +62,23 @@ class Client extends Thread {
 
     public void run() {
 
-        System.out.println("Поток клиента: Клиент запущен.");
+        System.out.println("РџРѕС‚РѕРє РєР»РёРµРЅС‚Р°: РљР»РёРµРЅС‚ Р·Р°РїСѓС‰РµРЅ.");
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Введите адрес сервера:"); //127.0.0.1
+        System.out.println("Р’РІРµРґРёС‚Рµ Р°РґСЂРµСЃ СЃРµСЂРІРµСЂР°:"); //127.0.0.1
         String host = scanner.nextLine();
 
-        System.out.println("Введите номер порта:");
+        System.out.println("Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РїРѕСЂС‚Р°:");
         int port = Integer.parseInt(scanner.nextLine());
 
         try (Socket socket = new Socket(host, port);
              DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream())) {
 
-            System.out.println("Введите url: ");
+            System.out.println("Р’РІРµРґРёС‚Рµ url: ");
             String query = scanner.nextLine();
 
-            System.out.println("Поток клиента: Отправляю запрос - " + query);
+            System.out.println("РџРѕС‚РѕРє РєР»РёРµРЅС‚Р°: РћС‚РїСЂР°РІР»СЏСЋ Р·Р°РїСЂРѕСЃ - " + query);
 
             dataOutputStream.writeUTF(query);
             dataOutputStream.flush();
@@ -86,7 +86,7 @@ class Client extends Thread {
             byte[] buffer = new byte[4096];
             int size;
 
-            System.out.println("Поток клиента: Получен ответ от сервера.");
+            System.out.println("РџРѕС‚РѕРє РєР»РёРµРЅС‚Р°: РџРѕР»СѓС‡РµРЅ РѕС‚РІРµС‚ РѕС‚ СЃРµСЂРІРµСЂР°.");
 
             String[] urlSegments = query.trim().split("/");
             String fileName = urlSegments[urlSegments.length - 1];
@@ -100,12 +100,11 @@ class Client extends Thread {
             }
             outputStream.flush();
             outputStream.close();
-
-            System.out.println("Поток клиента: Файл " + fileName + " создан.");
+            System.out.println("РџРѕС‚РѕРє РєР»РёРµРЅС‚Р°: Р¤Р°Р№Р» " + fileName + " СЃРѕР·РґР°РЅ.");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Поток клиента: Работа клиента завершена.");
+        System.out.println("РџРѕС‚РѕРє РєР»РёРµРЅС‚Р°: Р Р°Р±РѕС‚Р° РєР»РёРµРЅС‚Р° Р·Р°РІРµСЂС€РµРЅР°.");
     }
 }
